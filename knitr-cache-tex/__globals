@@ -1,0 +1,3 @@
+trip.settings	SIC	vessel	trip.no	ves.code	ifelse	trip	paste0
+catch.summary	library	tidyverse	foreign	spp_codes	read_csv	code	as.numeric	Spc_Code	RV.SET	read.dbf	RV.Catch	left_join	c	sets	length	divs	unique	NAFO_DIV	depth.range	range	as.character	MEAN_DEPTH	num.species	SPECIES	total.catch	%>%	summarise	sum	WEIGHTC
+catch.plot	top15	RV.Catch	%>%	group_by	SPECIES	summarize	sum	WEIGHTC	top_n	ggplot	geom_col	aes	reorder	as.factor	weight	scale_y_continuous	c	ylab	xlab	theme_bw	theme	element_text	margin	unit	element_rect
