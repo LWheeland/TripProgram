@@ -5,15 +5,15 @@
     "dirty" : false,
     "encoding" : "UTF-8",
     "folds" : "",
-    "hash" : "1787415133",
+    "hash" : "0",
     "id" : "1609F008",
-    "lastKnownWriteTime" : 1543442937,
-    "last_content_update" : 1543442937,
+    "lastKnownWriteTime" : 1543532358,
+    "last_content_update" : 1543532358390,
     "path" : "~/GitHub/TripProgram/knitr-TripReport.Rmd",
     "project_path" : null,
     "properties" : {
-        "cursorPosition" : "11,0",
-        "scrollLine" : "0"
+        "cursorPosition" : "80,0",
+        "scrollLine" : "68"
     },
     "relative_order" : 1,
     "source_on_save" : false,
