@@ -43,8 +43,12 @@ vessel <- "Teleost" #enter your vessel name in the quotes
 trip.no <- "190" #enter your trip number here
 ves.code <- ifelse(vessel=="Teleost","TEL", "NED")
 trip <- paste0(ves.code, trip.no) #enter your trip number. vessel carried from lines before
+date_start <- "October 24, 2018"
+date_end <- "November 6, 2018"
+crew <- c("F. Dawson", "K. Rideout", "M. Terry", "B. Vaters", "P. Higdon", "J. Croft", "F. Tulk", "T. Bungay")
+area <- "NAFO Divisions 2H and 2J"
 ```
-## Trip Summary
+## TRIP SUMMARY
 
 **Vessel:** `r vessel` |
 **Trip number:** `r trip`
@@ -54,12 +58,22 @@ trip <- paste0(ves.code, trip.no) #enter your trip number. vessel carried from l
 **Sailed from:** St. Anthony, NL |
 **Returned to:** St. John's, NL
 
-**Start date:** October 24, 2018 |
-**End date:** November 6, 2018
+<!-- **Start date:** October 24, 2018 | -->
+<!-- **End date:** November 6, 2018 -->
+**Start Date:** `r date_start`
+**End Date:** `r date_end`
 
-**Scientific Staff:** `r SIC`(SIC), Name1, Name2, Name3, Name4, Name5
+**Scientific Staff:** `r SIC`(SIC), `r crew`
 
 This report has been prepared by `r SIC`(SIC).
+
+**Area of Operation:**
+
+**Purpose:**
+
+**Fishing Methods:**
+
+
 
 
 ## Catch Summary
