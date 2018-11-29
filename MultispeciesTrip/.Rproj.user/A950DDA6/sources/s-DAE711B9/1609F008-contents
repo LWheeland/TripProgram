@@ -125,14 +125,14 @@ top15
 
 *Figure 1: Total catch weight of the fifteen most commonly encountered taxa during trip `r trip`*
 
-<!-- TABLE OF SETS -->
-```{r Sets.Table, echo=FALSE}
-
-n_sets <- RV.SET %>% 
-  group_by(depth.bin) %>% 
-  summarize(N=n()) 
-
-
-```
-kable(n_sets, format="markdown")
+#<!-- TABLE OF SETS -->
+#```{r Sets.Table, echo=FALSE}
+#
+#n_sets <- RV.SET %>% 
+#  group_by(depth.bin) %>% 
+#  summarize(N=n()) 
+#
+#
+#```
+#kable(n_sets, format="markdown")
 

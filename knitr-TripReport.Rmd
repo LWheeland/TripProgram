@@ -7,7 +7,6 @@ subtitle: Newfoundland and Labrador Region
 author: "Science Branch"
 output: pdf_document
 fontsize: 12pt
-
 ---
 
 <!-- The following code contains text and code to summarize a multipspecies survey trip
@@ -83,12 +82,12 @@ library(tidyverse)
 library(foreign)
 
 #  read in species codes     
-spp_codes <- read_csv("C:/Users/Laura/Documents/trip report/species codes (lookup).csv")
+spp_codes <- read_csv("data/species codes (lookup).csv")
 spp_codes$code <- as.numeric(spp_codes$Spc_Code)
 
 #  read in FFS data dbf      
-RV.SET <- read.dbf("C:/Users/Laura/Documents/trip report/TEL190/RV_SET.dbf")
-RV.Catch <- read.dbf("C:/Users/Laura/Documents/trip report/TEL190/RV_CATCH.dbf")
+RV.SET <- read.dbf("data/TEL190/RV_SET.dbf")
+RV.Catch <- read.dbf("data/RV_CATCH.dbf")
 
 # match spp names to codes 
 RV.Catch <- left_join(RV.Catch, spp_codes, by=c("SPECIES" = "code"))
@@ -139,14 +138,14 @@ top15
 
 *Figure 1: Total catch weight of the fifteen most commonly encountered taxa during trip `r trip`*
 
-<!-- TABLE OF SETS -->
-```{r Sets.Table, echo=FALSE}
-
-n_sets <- RV.SET %>% 
-  group_by(depth.bin) %>% 
-  summarize(N=n()) 
-
-
-```
-kable(n_sets, format="markdown")
+#<!-- TABLE OF SETS -->
+#```{r Sets.Table, echo=FALSE}
+#
+#n_sets <- RV.SET %>% 
+#  group_by(depth.bin) %>% 
+#  summarize(N=n()) 
+#
+#
+#```
+#kable(n_sets, format="markdown")
 
