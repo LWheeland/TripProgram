@@ -1,8 +1,10 @@
 #SURVEY TRACK
 
-```{r surveymap, echo=FALSE, message=FALSE, fig.height = 6, fig.width = 5, fig.caption = "Figure 1: Survey track for multispecies survey"}
+```{r surveymap, include=FALSE, message=FALSE}
 divs<-c("2G","2H")
+
 packages <- c("ggmap", "rgdal", "rgeos", "maptools", "dplyr", "tidyr","sf","maps","plyr","wesanderson")
+
 package.check <- lapply(packages, FUN = function(x) {
   if (!require(x, character.only = TRUE)) {
     install.packages(x, dependencies = TRUE)
@@ -35,6 +37,9 @@ RV_sp<-  SpatialPointsDataFrame(coords = RV_f[,c("LAT_START","LONG_START","LAT_E
                                 proj4string = CRS("+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0"))
 
 colnames(strata_new)[3]<-"strat"
+```
+
+```{r makeamap, echo=FALSE,fig.height = 6, fig.width = 5, fig.caption = "Figure 1: Survey track for multispecies survey"}
 
 ggplot()+
     theme_classic()+
@@ -52,4 +57,4 @@ ggplot()+
 ```
 
 
-A plot of the survey track is presented in Figure \@ref(fig:surveymap).
+A plot of the survey track is presented in Figure @\ref(fig:makeamap).

@@ -13,7 +13,7 @@
 
 **Scientific Staff:** `r trip_sum[["PIC"]]`(SIC), `r trip_sum[["Crew"]]`
 
-**Area of Operation:** `r area` fishing in depths to a maximum of `r max(as.numeric(as.character(RV.SET$MEAN_DEPTH)))` m.
+**Area of Operation:** `r as.character(unique(RV.SET$NAFO_DIV))` fishing in depths to a maximum of `r max(as.numeric(as.character(RV.SET$MEAN_DEPTH)))` m.
 
 **Purpose:** To determine the distribution and abundance of various groundfish and shellfish species with respect to position, depth and temperature and to collect biological samples.
 
@@ -40,5 +40,24 @@ hourslost <- sum(as.numeric(as.character(time_lost$time)))
 
 A total of `r hourslost` hours were lost due to a combination of weather, mecahanical issues and other causes.  <!-- can edit this text to add details on causes, lost time-->
 
+``` {r successsets, echo=F}
+RV.SET$set <- ifelse(RV.SET$DAMAGE==1, "successful", "unsuccessful")
 
-A total of `r successfulsets` successful sets and `r unsuccessfulsets` unsuccessful sets were completed between depths of `r min(as.numeric(as.character(RV.SET$MEAN_DEPTH)))` m and `r max(as.numeric(as.character(RV.SET$MEAN_DEPTH)))` m in `r area`. 
+num_sets <- RV.SET %>% 
+  group_by(NAFO_DIV) %>% 
+  group_by(set, add=T) %>% 
+  summarize(N_sets=n())
+
+colnames(num_sets) <- c("NAFO", "type","N")
+kable(num_sets, format = "markdown", caption = "Successful sets by NAFO division")
+
+sucessful <- RV.SET %>% 
+  group_by(set, add=T) %>% 
+  summarize(N_sets=n())
+
+successfulsets <- sucessful[1,2]
+unsuccessfulsets <- sucessful[2,2]
+
+```
+
+A total of `r successfulsets` successful sets and `r unsuccessfulsets` unsuccessful sets were completed between depths of `r min(as.numeric(as.character(RV.SET$MEAN_DEPTH)))` m and `r max(as.numeric(as.character(RV.SET$MEAN_DEPTH)))` m. 

@@ -1,3 +1,7 @@
 book_filename: "cruisereport"
-rmd_files: ["index.Rmd", "01-Tripsummary.Rmd", "02-Map.Rmd", "03-Catchsummary.Rmd"]
+rmd_files: ["index.Rmd", 
+"01TripSummary.Rmd",
+"02-Map.Rmd", 
+"03-Catchsummary.Rmd"
+]
 delete_merged_file: true

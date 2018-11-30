@@ -1,5 +1,14 @@
 
+
 ```{r catch.summary, include=FALSE}
+library(tidyverse)
+
+#  read in FFS data dbf      
+RV.SET <- read.dbf("Data/RV_SET.dbf")
+RV.Catch <- read.dbf("Data/RV_CATCH.dbf")
+
+# match spp names to codes 
+RV.Catch <- left_join(RV.Catch, spp_codes, by=c("SPECIES" = "code"))
 
 #number of sets
 sets <- length(RV.SET)
@@ -22,6 +31,8 @@ This trip completed `r sets` sets in NAFO divisions `r as.character(divs)`. Tota
 \
 
 ```{r top.catch, echo=FALSE}
+library(tidyverse)
+
 weight.sum <- RV.Catch %>% 
   group_by(Spc_Name) %>% 
   summarize(weight=sum(WEIGHTC)) %>% 
@@ -30,18 +41,20 @@ weight.sum <- RV.Catch %>%
 weight.sum$prop <- weight.sum$weight/total.catch$total
 
 ```
-`r num.species` taxa were represented in the catch, with a total catch weight of `r tot.catch`kg. `r as.character(weight.sum$Spc_Name[1])` and `r as.character(weight.sum$Spc_Name[2])` were the most prevalent species, accounting for `r round(weight.sum$prop[1]*100,1)`% and `r round(weight.sum$prop[1]*100,2)`% of the total catch by weight, respectively. Figure \@ref{catch.summary} summarizes the most commonly caught taxa from this trip.
+`r num.species` taxa were represented in the catch, with a total catch weight of `r total.catch`kg. `r as.character(weight.sum$Spc_Name[1])` and `r as.character(weight.sum$Spc_Name[2])` were the most prevalent species, accounting for `r round(weight.sum$prop[1]*100,1)`% and `r round(weight.sum$prop[1]*100,2)`% of the total catch by weight, respectively. Figure \@ref{catch.summary} summarizes the most commonly caught taxa from this trip.
 
 Summarized near bottom temperature from a net mounted CTD is shown in Figure \@ref{temp.plot}.
 
 ```{r catch.plot, echo=FALSE, message=FALSE,fig.height = 5, fig.width = 7, fig.caption = "Total catch weight of the fifteen most commonly encountered taxa during trip `r trip"}
+
+library(tidyverse)
 
 RV.Catch %>% 
   group_by(SPECIES) %>% 
   summarize(weight=sum(WEIGHTC)) %>% 
   top_n(15) %>% 
   ggplot +
-  geom_col(aes(x=reorder(as.factor(SPECIES), -weight), y=weight))+
+  geom_col(aes(x=reorder(SPECIES), -weight), y=weight)+
   scale_y_continuous(expand=c(0,0), limits=c(0,1500))+
   ylab("Total catch weight (kg)")+
   xlab("Species code")+
@@ -57,10 +70,12 @@ RV.Catch %>%
 
 
 ```{r temp.plot, echo=FALSE, message=FALSE, fig.height = 6, fig.width = 5, fig.caption = "Temperature at depth, as recorded from trawl mounted CTD"}
+library(tidyverse)
 
 RV.SET %>% 
+  filter(FISH_TEMP<88) %>% 
   ggplot()+
-  geom_point(aes(y=MEAN_DEPTH, x=FISH_TEMP), size=2)+
+  geom_point(aes(y=as.numeric(as.character(MEAN_DEPTH)), x=FISH_TEMP), size=2)+
   scale_y_reverse()+
   ylab("Depth (m)")+
   xlab("Temperature (°C)")+
