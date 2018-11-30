@@ -1,0 +1,80 @@
+
+```{r catch.summary, include=FALSE}
+
+#number of sets
+sets <- length(RV.SET)
+
+#divisions surveyed
+divs <- unique(RV.SET$NAFO_DIV)
+
+#Depth range
+depth.range <- range(as.numeric(as.character(RV.SET$MEAN_DEPTH)),na.rm=TRUE)
+
+#Number of species encountered.
+num.species <- length((unique(RV.Catch$SPECIES)))
+
+#Total catch
+total.catch <- RV.Catch %>% 
+  summarise(total=sum(WEIGHTC))
+```
+
+This trip completed `r sets` sets in NAFO divisions `r as.character(divs)`. Total catch was `r round (total.catch,0)`kg, with `r num.species` taxa recorded. Fishing occurred from `r min(depth.range)`m to `r max(depth.range)`m.
+\
+
+```{r top.catch, echo=FALSE}
+weight.sum <- RV.Catch %>% 
+  group_by(Spc_Name) %>% 
+  summarize(weight=sum(WEIGHTC)) %>% 
+  arrange(desc(weight))
+
+weight.sum$prop <- weight.sum$weight/total.catch$total
+
+```
+`r num.species` taxa were represented in the catch, with a total catch weight of `r tot.catch`kg. `r as.character(weight.sum$Spc_Name[1])` and `r as.character(weight.sum$Spc_Name[2])` were the most prevalent species, accounting for `r round(weight.sum$prop[1]*100,1)`% and `r round(weight.sum$prop[1]*100,2)`% of the total catch by weight, respectively. Figure \@ref{catch.summary} summarizes the most commonly caught taxa from this trip.
+
+Summarized near bottom temperature from a net mounted CTD is shown in Figure \@ref{temp.plot}.
+
+```{r catch.plot, echo=FALSE, message=FALSE,fig.height = 5, fig.width = 7, fig.caption = "Total catch weight of the fifteen most commonly encountered taxa during trip `r trip"}
+
+RV.Catch %>% 
+  group_by(SPECIES) %>% 
+  summarize(weight=sum(WEIGHTC)) %>% 
+  top_n(15) %>% 
+  ggplot +
+  geom_col(aes(x=reorder(as.factor(SPECIES), -weight), y=weight))+
+  scale_y_continuous(expand=c(0,0), limits=c(0,1500))+
+  ylab("Total catch weight (kg)")+
+  xlab("Species code")+
+  theme_bw()+
+  theme(axis.text=element_text(size=10),
+        axis.title=element_text(size=12),
+        plot.title = element_text(hjust = 0.5,size=14),
+        axis.title.y = element_text(margin = margin(t = 0, r = 20, b = 0, l = 0)),
+        axis.title.x = element_text(margin = margin(t = 10, r = 20, b = 0, l = 0)),
+        plot.margin=unit(c(0.25,1,0.5,0.25),"cm"),
+        panel.border = element_rect(colour = "grey", fill=NA, size=0.75))
+```
+
+
+```{r temp.plot, echo=FALSE, message=FALSE, fig.height = 6, fig.width = 5, fig.caption = "Temperature at depth, as recorded from trawl mounted CTD"}
+
+RV.SET %>% 
+  ggplot()+
+  geom_point(aes(y=MEAN_DEPTH, x=FISH_TEMP), size=2)+
+  scale_y_reverse()+
+  ylab("Depth (m)")+
+  xlab("Temperature (°C)")+
+  theme(axis.text=element_text(size=10),
+        axis.title=element_text(size=12),
+        plot.title = element_text(hjust = 0.5,size=14),
+        axis.title.y = element_text(margin = margin(t = 0, r = 20, b = 0, l = 0)),
+        axis.title.x = element_text(margin = margin(t = 10, r = 20, b = 0, l = 0)),
+        plot.margin=unit(c(0.25,1,0.5,0.25),"cm"),
+        panel.border = element_rect(colour = "black", fill=NA, size=0.75))
+
+```
+
+
+
+This report has been prepared by `r trip_sum[["PIC"]]`(SIC).
+

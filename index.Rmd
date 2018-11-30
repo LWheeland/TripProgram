@@ -47,3 +47,60 @@ knitr::opts_chunk$set(
 # # add other packages here:
 # library(csasdown)
 # ```
+
+```{r trip.settings, echo=FALSE}
+#BR Added the below and commented out the rest...
+dfo_fill<-function(){
+  res<-list()
+  res["PIC"] <- dlg_input("Name of Person in Charge")$res
+  res["Vessel.abb"] <- dlg_input("Vessel (ex: TEL)")$res
+  if(res["Vessel.abb"]=="TEL"){
+    res["Vessel"]<-"Teleost"
+  }else{
+    res["Vessel"]<-"Alfred Needler"
+  }
+  res["Trip"] <- dlg_input("Trip (eg. 190)")$res
+  res["Start"]<- dlg_input("Start Date (eg. 01 September 2018)")$res
+  res["End"]<- dlg_input("End Date (eg. 01 September 2018)")$res
+  res["Crew"]<- dlg_input("Scientific Crew (eg. B. Rogers, D. Who)")$res
+  res["H_lost"]<- dlg_input("Hours Lost")$res
+  
+  res
+}
+trip_sum<-dfo_fill()
+```
+
+```{r data.summary, include=FALSE}
+library(tidyverse)
+library(foreign)
+
+#  read in species codes     
+spp_codes <- read_csv("Data/species codes (lookup).csv")
+spp_codes$code <- as.numeric(spp_codes$Spc_Code)
+
+#  read in FFS data dbf      
+RV.SET <- read.dbf("Data/RV_SET.dbf")
+RV.Catch <- read.dbf("Data/RV_CATCH.dbf")
+
+# match spp names to codes 
+RV.Catch <- left_join(RV.Catch, spp_codes, by=c("SPECIES" = "code"))
+
+#number of sets
+sets <- length(RV.SET)
+
+#divisions surveyed
+divs <- unique(RV.SET$NAFO_DIV)
+
+#Depth range
+depth.range <- range(as.numeric(as.character(RV.SET$MEAN_DEPTH)),na.rm=TRUE)
+
+#Number of species encountered.
+num.species <- length((unique(RV.Catch$SPECIES)))
+
+#Total catch
+total.catch <- RV.Catch %>% 
+  summarise(total=sum(WEIGHTC))
+
+
+```
+
