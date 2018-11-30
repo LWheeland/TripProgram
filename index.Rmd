@@ -25,7 +25,7 @@ knitr::opts_chunk$set(
   comment = "#>",
   fig.path = if (knitr:::is_latex_output()) "knitr-figs-pdf/" else "knitr-figs-docx/",
   cache.path = if (knitr:::is_latex_output()) "knitr-cache-tex/" else "knitr-cache-docx/",
-  fig.asp = 0.618,
+  #fig.asp = 0.618,
   fig.width = 9,
   out.width = "6in",
   echo = FALSE,
@@ -68,7 +68,7 @@ dfo_fill<-function(){
 trip_sum<-dfo_fill()
 ```
 
-```{r data.summary, include=FALSE}
+```{r datasummary, include=FALSE}
 library(tidyverse)
 library(foreign)
 
@@ -87,7 +87,7 @@ RV.Catch <- left_join(RV.Catch, spp_codes, by=c("SPECIES" = "code"))
 sets <- length(RV.SET)
 
 #divisions surveyed
-divs <- unique(RV.SET$NAFO_DIV)
+divs <- as.character(unique(RV.SET$NAFO_DIV))
 
 #Depth range
 depth.range <- range(as.numeric(as.character(RV.SET$MEAN_DEPTH)),na.rm=TRUE)

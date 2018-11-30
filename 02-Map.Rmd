@@ -1,7 +1,6 @@
 #SURVEY TRACK
 
 ```{r surveymap, include=FALSE, message=FALSE}
-divs<-c("2G","2H")
 
 packages <- c("ggmap", "rgdal", "rgeos", "maptools", "dplyr", "tidyr","sf","maps","plyr","wesanderson")
 
@@ -39,19 +38,23 @@ RV_sp<-  SpatialPointsDataFrame(coords = RV_f[,c("LAT_START","LONG_START","LAT_E
 colnames(strata_new)[3]<-"strat"
 ```
 
-```{r makeamap, echo=FALSE,fig.height = 6, fig.width = 5, fig.caption = "Figure 1: Survey track for multispecies survey"}
+```{r makeamap, echo=FALSE,fig.height = 20, fig.width = 20, fig.caption = "Survey track for multispecies survey"}
 
 ggplot()+
     theme_classic()+
     geom_sf(data=strata_new)+#Empty Strata plotting
-    annotate("text",RV_sp$LONG_START,RV_sp$LAT_START,label=RV_sp$SET,hjust=-.5)+
-    geom_point(aes(LONG_START,LAT_START),RV_f)+
-    geom_path(aes(LONG_START,LAT_START),RV_f,lwd=1)+
+    #annotate("text",RV_sp$LONG_START,RV_sp$LAT_START,label=RV_sp$SET,hjust=-.5, size=12)+
+  ylab("Latitude")+
+  xlab("Longitude")+
+    geom_point(aes(LONG_START,LAT_START),RV_f, size=3)+
+    geom_path(aes(LONG_START,LAT_START),RV_f,lwd=2)+
     geom_sf(data=(NAFO_div), colour="black", fill=NA, lwd=1)+#Add NAFO lines
     geom_sf(data=fortify(newfoundland_sp),fill="burlywood3")+#Add NL
     theme(panel.grid.major=element_line(colour="transparent"))+
-    theme(plot.title = element_text(size=12,hjust = 0.5),
-          plot.subtitle = element_text(size=12,hjust = 0.5))+
+    theme(plot.title = element_text(size=40,hjust = 0.5),
+          plot.subtitle = element_text(size=30,hjust = 0.5),
+          axis.title = element_text(size=40),
+          axis.text = element_text(size=30))+
     coord_sf(xlim = c(st_bbox(strata_new)[1],st_bbox(strata_new)[3]),ylim = c(st_bbox(strata_new)[2],st_bbox(strata_new)[4]))
 
 ```
