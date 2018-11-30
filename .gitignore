@@ -2,10 +2,5 @@
 .Rhistory
 .RData
 .Ruserdata
-.DBF
-.CDX
-.aacbd
-.FPT
-/knitr-cache
-.accdb
-.FPT
+/knitr-cache-tex
+/knitr-cache-docx
