@@ -5,8 +5,13 @@
 title: DFO Multispecies Survey Trip Report
 subtitle: Newfoundland and Labrador Region
 author: "Science Branch"
+<<<<<<< HEAD
+# output: pdf_document
+output: html_document
+=======
 output: pdf_document
 #output: word_document
+>>>>>>> e9254f64f84dcf2f92879b6c39c1049862f8699e
 fontsize: 12pt
 ---
 
@@ -179,8 +184,8 @@ RV.Catch %>%
         panel.border = element_rect(colour = "grey", fill=NA, size=0.75))
 ```
 
-```{r temp.plot, echo=FALSE, message=FALSE, fig.caption = "Temperature at depth, as recorded from trawl mounted CTD"}
-# {r temp.plot, echo=FALSE, message=FALSE, fig.height = 6, fig.width = 5, fig.caption = "Figure 2: Temperature at depth, as recorded from trawl mounted CTD"}
+# ```{r temp.plot, echo=FALSE, message=FALSE, fig.caption = "Temperature at depth, as recorded from trawl mounted CTD"}
+```{r temp.plot, echo=FALSE, message=FALSE, fig.height = 6, fig.width = 5, fig.caption = "Figure 2: Temperature at depth, as recorded from trawl mounted CTD"}
 
 RV.SET %>% 
   ggplot()+
