@@ -1,4 +1,6 @@
-trip.settings	area	crew	date_end	date_start	SIC	trip	trip.no	ves.code	vessel
+trip.settings	area	crew	date_end	date_start	hourslost	SIC	successfulsets	trip	trip.no	unsuccessfulsets	ves.code	vessel
 data.summary	RV.Catch	RV.SET	spp_codes	.Random.seed
 catch.summary	depth.range	divs	num.species	RV.Catch	sets	total.catch
-catch.plot	top15
+catch.plot	
+figure.init	RV.Catch
+top15.fig	top15spp

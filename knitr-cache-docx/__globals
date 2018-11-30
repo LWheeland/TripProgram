@@ -1,4 +1,6 @@
-trip.settings	SIC	vessel	trip.no	ves.code	ifelse	trip	paste0	date_start	date_end	crew	c	area
+trip.settings	SIC	vessel	trip.no	ves.code	ifelse	trip	paste0	date_start	date_end	crew	c	area	hourslost	successfulsets	unsuccessfulsets
 data.summary	library	tidyverse	foreign	spp_codes	read_csv	code	as.numeric	Spc_Code	RV.SET	read.dbf	RV.Catch
 catch.summary	RV.Catch	left_join	spp_codes	c	sets	length	RV.SET	divs	unique	NAFO_DIV	depth.range	range	as.numeric	as.character	MEAN_DEPTH	num.species	SPECIES	total.catch	%>%	summarise	sum	WEIGHTC
-catch.plot	top15	RV.Catch	%>%	group_by	SPECIES	summarize	sum	WEIGHTC	top_n	ggplot	geom_col	aes	reorder	as.factor	weight	scale_y_continuous	c	ylab	xlab	theme_bw	theme	element_text	margin	unit	element_rect
+catch.plot	RV.Catch	%>%	group_by	SPECIES	summarize	sum	WEIGHTC	top_n	ggplot	geom_col	aes	reorder	as.factor	weight	scale_y_continuous	c	ylab	xlab	theme_bw	theme	element_text	margin	unit	element_rect
+figure.init	library	foreign	scales	tidyverse	RV.Catch	left_join	spp_codes	c
+top15.fig	top15spp	RV.Catch	%>%	group_by	SPECIES	summarize	sum	WEIGHTC	top_n	ggplot	geom_col	aes	reorder	as.factor	weight	scale_y_continuous	c	ylab	xlab	theme	element_text	margin	unit	element_rect	ggsave
