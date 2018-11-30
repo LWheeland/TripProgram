@@ -1,0 +1,44 @@
+## TRIP SUMMARY
+
+**Vessel:** `r trip_sum[["Vessel"]]` |
+**Trip number:** `r paste(trip_sum[["Vessel.abb"]],trip_sum[["Trip"]],collapse="")`
+<!-- update your locations and dates here
+-->
+
+**Sailed from:** `r trip_sum[["Depart"]]`  |
+**Returned to:** `r trip_sum[["Return"]]`
+
+**Start Date:** `r trip_sum[["Start"]]` |
+**End Date:** `r trip_sum[["End"]]`
+
+**Scientific Staff:** `r trip_sum[["PIC"]]`(SIC), `r trip_sum[["Crew"]]`
+
+**Area of Operation:** `r area` fishing in depths to a maximum of `r max(as.numeric(as.character(RV.SET$MEAN_DEPTH)))` m.
+
+**Purpose:** To determine the distribution and abundance of various groundfish and shellfish species with respect to position, depth and temperature and to collect biological samples.
+
+**Fishing Methods:** Sets of 15-minute duration towing at 3.0 knots using the Campellen 1800 bottom trawl with a small-mesh liner (12 mm) in the cod-end. SCANMAR acoustic sensors were mounted on the trawl for determination of bottom contact and net configuration during tow.
+
+**Time Lost:**
+```{r Timelost, echo=FALSE}
+library(kableExtra)
+
+categories <- c("Mechanical Issues", "Weather", "Other")
+
+mech <- 3 #enter the number of hours lost to "MEchanical Issues"
+weather <- 5 #enter the number of hours lost to "Weather"
+other <- 19 #enter the number of hours lost to "other" causes
+
+time <- c(mech, weather, other)
+
+time_lost <- data.frame(cbind(categories, time))
+kable(time_lost, format="markdown", caption = "Time lost")
+
+hourslost <- sum(as.numeric(as.character(time_lost$time)))
+
+```
+
+A total of `r hourslost` hours were lost due to a combination of weather, mecahanical issues and other causes.  <!-- can edit this text to add details on causes, lost time-->
+
+
+A total of `r successfulsets` successful sets and `r unsuccessfulsets` unsuccessful sets were completed between depths of `r min(as.numeric(as.character(RV.SET$MEAN_DEPTH)))` m and `r max(as.numeric(as.character(RV.SET$MEAN_DEPTH)))` m in `r area`. 
