@@ -1,7 +1,7 @@
 #SURVEY TRACK
 
 ```{r surveymap, echo=FALSE, message=FALSE, fig.height = 6, fig.width = 5, fig.caption = "Figure 1: Survey track for multispecies survey"}
-
+divs<-c("2G","2H")
 packages <- c("ggmap", "rgdal", "rgeos", "maptools", "dplyr", "tidyr","sf","maps","plyr","wesanderson")
 package.check <- lapply(packages, FUN = function(x) {
   if (!require(x, character.only = TRUE)) {
