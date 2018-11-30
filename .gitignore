@@ -2,3 +2,7 @@
 .Rhistory
 .RData
 .Ruserdata
+.DBX
+.knitr-cache=text
+.accdb
+.FPT
