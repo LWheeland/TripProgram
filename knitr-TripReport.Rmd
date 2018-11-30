@@ -38,18 +38,40 @@ knitr::opts_chunk$set(
 
 
 ```{r trip.settings, echo=FALSE}
-SIC <- "Laura Wheeland" #scientist in charge name in quotes
-vessel <- "Teleost" #enter your vessel name in the quotes
-trip.no <- "190" #enter your trip number here
-ves.code <- ifelse(vessel=="Teleost","TEL", "NED")
-trip <- paste0(ves.code, trip.no) #enter your trip number. vessel carried from lines before
-date_start <- "October 24, 2018"
-date_end <- "November 6, 2018"
-crew <- c("F. Dawson", "K. Rideout", "M. Terry", "B. Vaters", "P. Higdon", "J. Croft", "F. Tulk", "T. Bungay")
-area <- "NAFO Divisions 2H and 2J"
-hourslost <- 0 #This will eventually be entered by the SIC on a survey overview sheet
-successfulsets <- 20 #this will be data driven
-unsuccessfulsets <- 10 #this will be data driven
+#BR Added the below and commented out the rest...
+dfo_fill<-function(){
+  res<-list()
+  res["PIC"] <- dlg_input("Name of Person in Charge")$res
+  res["Vessel.abb"] <- dlg_input("Vessel (ex: TEL)")$res
+  if(res["Vessel.abb"]=="TEL"){
+    res["Vessel"]<-"Teleost"
+  }else{
+    res["Vessel"]<-"Alfred Needler"
+  }
+  res["Trip"] <- dlg_input("Trip (eg. 190)")$res
+  res["Start"]<- dlg_input("Start Date (eg. 01 September 2018)")$res
+  res["End"]<- dlg_input("End Date (eg. 01 September 2018)")$res
+  res["Crew"]<- dlg_input("Scientific Crew (eg. B. Rogers, D. Who)")$res
+  res["H_lost"]<- dlg_input("Hours Lost")$res
+  
+  res
+}
+trip_sum<-dfo_fill()
+# #Make the SurveyCheck.R script the first step
+# SIC <- "Laura Wheeland" #scientist in charge name in quotes
+# vessel <- "Teleost" #enter your vessel name in the quotes
+# trip.no <- "190" #enter your trip number here
+# ves.code <- ifelse(vessel=="Teleost","TEL", "NED")
+# trip <- paste0(ves.code, trip.no) #enter your trip number. vessel carried from lines before
+# date_start <- "October 24, 2018"
+# date_end <- "November 6, 2018"
+# crew <- c("F. Dawson", "K. Rideout", "M. Terry", "B. Vaters", "P. Higdon", "J. Croft", "F. Tulk", "T. Bungay")
+# #Data-driven
+# # area <- "NAFO Divisions 2H and 2J"
+# hourslost <- 0 #This will eventually be entered by the SIC on a survey overview sheet
+# # #This can be sum of sets from FFS output
+# # successfulsets <- 20 #this will be data driven
+# # unsuccessfulsets <- 10 #this will be data driven
 ```
 <!-- Load data tables -->
 ```{r data.summary, include=FALSE}
@@ -64,11 +86,12 @@ spp_codes$code <- as.numeric(spp_codes$Spc_Code)
 RV.SET <- read.dbf("Data/RV_SET.dbf")
 RV.Catch <- read.dbf("Data/RV_CATCH.dbf")
 
+
 ```
 ## TRIP SUMMARY
 
-**Vessel:** `r vessel` |
-**Trip number:** `r trip`
+**Vessel:** `r trip_sum[["Vessel"]]` |
+**Trip number:** `r paste(trip_sum[["Vessel.abb"]],trip_sum[["Trip"]],collapse="")`
 <!-- update your locations and dates here
 -->
 
@@ -77,12 +100,12 @@ RV.Catch <- read.dbf("Data/RV_CATCH.dbf")
 
 <!-- **Start date:** October 24, 2018 | -->
 <!-- **End date:** November 6, 2018 -->
-**Start Date:** `r date_start` |
-**End Date:** `r date_end`
+**Start Date:** `r trip_sum[["Start"]]` |
+**End Date:** `r trip_sum[["End"]]`
 
-**Scientific Staff:** `r SIC`(SIC), `r crew`
+**Scientific Staff:** `r trip_sum[["PIC"]]`(SIC), `r trip_sum[["Crew"]]`
 
-This report has been prepared by `r SIC`(SIC).
+This report has been prepared by `r trip_sum[["PIC"]]`(SIC).
 
 **Area of Operation:** `r area` fishing in depths to a maximum of `r max(as.numeric(as.character(RV.SET$MEAN_DEPTH)))` m.
 
