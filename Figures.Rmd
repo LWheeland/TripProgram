@@ -1,0 +1,40 @@
+# Scripts for generating figures for survey summary document
+
+```{r catch.plot, echo=FALSE, message=FALSE,fig.height = 5, fig.width = 7, fig.caption = "Figure 3: Total catch weight of the fifteen most commonly encountered taxa during trip `r trip"}
+
+RV.Catch %>% 
+  group_by(SPECIES) %>% 
+  summarize(weight=sum(WEIGHTC)) %>% 
+  top_n(20) %>% 
+  ggplot +
+  geom_col(aes(x=reorder(as.factor(SPECIES), -weight), y=weight))+
+  scale_y_continuous(expand=c(0,0), limits=c(0,1500))+
+  ylab("Total catch weight (kg)")+
+  xlab("Species code")+
+  theme_bw()+
+  theme(axis.text=element_text(size=10),
+        axis.title=element_text(size=12),
+        plot.title = element_text(hjust = 0.5,size=14),
+        axis.title.y = element_text(margin = margin(t = 0, r = 20, b = 0, l = 0)),
+        axis.title.x = element_text(margin = margin(t = 10, r = 20, b = 0, l = 0)),
+        plot.margin=unit(c(0.25,1,0.5,0.25),"cm"),
+        panel.border = element_rect(colour = "grey", fill=NA, size=0.75))
+```
+
+```{r temp.plot, echo=FALSE, message=FALSE, fig.height = 6, fig.width = 5, fig.caption = "Figure 2: Temperature at depth, as recorded from trawl mounted CTD"}
+
+RV.SET %>% 
+  ggplot()+
+geom_point(aes(y=MEAN_DEPTH, x=FISH_TEMP), size=2)+
+scale_y_reverse()+
+ylab("Depth (m)")+
+xlab("Temperature (°C)")+
+theme(axis.text=element_text(size=10),
+axis.title=element_text(size=12),
+plot.title = element_text(hjust = 0.5,size=14),
+axis.title.y = element_text(margin = margin(t = 0, r = 20, b = 0, l = 0)),
+axis.title.x = element_text(margin = margin(t = 10, r = 20, b = 0, l = 0)),
+plot.margin=unit(c(0.25,1,0.5,0.25),"cm"),
+panel.border = element_rect(colour = "black", fill=NA, size=0.75))
+
+```
