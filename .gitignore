@@ -1,6 +1,7 @@
 *~
 .Rhistory
 .RData
+<<<<<<< HEAD
 *.pdf
 *.html
 *.docx
@@ -19,3 +20,14 @@
 *knitr-cache
 *knitr-cache-tex
 *knitr-figs
+=======
+.Ruserdata
+.DBF
+.CDX
+.aacbd
+.FPT
+.docx
+/knitr-cache
+.accdb
+.FPT
+>>>>>>> e9254f64f84dcf2f92879b6c39c1049862f8699e

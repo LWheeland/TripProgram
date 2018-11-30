@@ -5,8 +5,13 @@
 title: DFO Multispecies Survey Trip Report
 subtitle: Newfoundland and Labrador Region
 author: "Science Branch"
+<<<<<<< HEAD
 # output: pdf_document
 output: html_document
+=======
+output: pdf_document
+#output: word_document
+>>>>>>> e9254f64f84dcf2f92879b6c39c1049862f8699e
 fontsize: 12pt
 ---
 
@@ -57,12 +62,12 @@ library(tidyverse)
 library(foreign)
 
 #  read in species codes     
-spp_codes <- read_csv("species codes (lookup).csv")
+spp_codes <- read_csv("Data/species codes (lookup).csv")
 spp_codes$code <- as.numeric(spp_codes$Spc_Code)
 
 #  read in FFS data dbf      
-RV.SET <- read.dbf("data/RV_SET.dbf")
-RV.Catch <- read.dbf("data/RV_CATCH.dbf")
+RV.SET <- read.dbf("Data/RV_SET.dbf")
+RV.Catch <- read.dbf("Data/RV_CATCH.dbf")
 
 ```
 ## TRIP SUMMARY
@@ -90,11 +95,56 @@ This report has been prepared by `r SIC`(SIC).
 
 **Fishing Methods:** Sets of 15-minute duration towing at 3.0 knots using the Campellen 1800 bottom trawl with a small-mesh liner (12 mm) in the cod-end. SCANMAR acoustic sensors were mounted on the trawl for determination of bottom contact and net configuration during tow.
 
+
+**Time Lost:**
+```{r Timelost, echo=FALSE}
+library(kableExtra)
+
+categories <- c("Mechanical Issues", "Weather", "Other")
+
+mech <- 3 #enter the number of hours lost to "MEchanical Issues"
+weather <- 5 #enter the number of hours lost to "Weather"
+other <- 19 #enter the number of hours lost to "other" causes
+
+time <- c(mech, weather, other)
+
+time_lost <- data.frame(cbind(categories, time))
+kable(time_lost, format="markdown", caption = "Time lost")
+
+hourslost <- sum(as.numeric(as.character(time_lost$time)))
+
+```
+
+A total of `r hourslost` hours were lost due to a combination of weather, mecahanical issues and other causes <!-- can edit this text to add details on causes, lost time-->
+
+
 **Results:** 
 
-**Time Lost:** A total of `r hourslost` hours were lost due to...
 
 ## Catch Summary
+```{r set, echo = FALSE}
+# MAKE A TABLE
+library(tidyverse)
+RV.SET$set <- ifelse(RV.SET$DAMAGE==1, "successful", "unsuccessful")
+
+num_sets <- RV.SET %>% 
+  group_by(NAFO_DIV) %>% 
+  group_by(set, add=T) %>% 
+  summarize(N_sets=n())
+
+colnames(num_sets) <- c("NAFO", "type","N")
+kable(num_sets, format = "markdown", caption = "Successful sets by NAFO division")
+
+sucessful <- RV.SET %>% 
+  group_by(set, add=T) %>% 
+  summarize(N_sets=n())
+
+successfulsets <- sucessful[1,2]
+unsuccessfulsets <- sucessful[2,2]
+
+
+```
+
 A total of `r successfulsets` successful sets and `r unsuccessfulsets` unsuccessful sets were completed between depths of `r min(as.numeric(as.character(RV.SET$MEAN_DEPTH)))` m and `r max(as.numeric(as.character(RV.SET$MEAN_DEPTH)))` m in `r area` (N=18) and 2J (N=36). 
 
 A plot of the survey track is presented in Figure 1. Summarized near bottom temperature from a net mounted CTD is shown in Figure 2. 167 taxonomic groups were represented in the catch, with a total catch weight of 6961kg. Greenland halibut and Atlantic cod were the most prevalent finfish, accounting for 19.8% and 8.5% of the total catch by weight, respectively. Shrimp were the second most abundant taxa overall by weight, accounting for 17.2% of total catches. Figure 3 summarizes the most commonly caught taxa from this trip.
@@ -188,6 +238,33 @@ total.catch <- RV.Catch %>%
 This trip completed `r sets` sets in NAFO divisions `r as.character(divs)`. Total catch was `r round (total.catch,0)`kg, with `r num.species` taxa recorded. Fishing occurred from `r min(depth.range)`m to `r max(depth.range)`m.
 \
 
+<<<<<<< HEAD
+<!--#plot catch weight of top 15 taxa-->
+```{r catch.plot, echo=FALSE, message=FALSE}
+
+top15 <- RV.Catch %>% 
+  group_by(SPECIES) %>% 
+  summarize(weight=sum(WEIGHTC)) %>% 
+  top_n(15) %>% 
+  ggplot +
+  geom_col(aes(x=reorder(as.factor(SPECIES), -weight), y=weight))+
+  scale_y_continuous(expand=c(0,0), limits=c(0,1500))+
+  ylab("Total catch weight (kg)")+
+  xlab("Species")+
+  theme_bw()+
+  theme(axis.text=element_text(size=10),
+        axis.title=element_text(size=12),
+        plot.title = element_text(hjust = 0.5,size=14),
+        axis.title.y = element_text(margin = margin(t = 0, r = 20, b = 0, l = 0)),
+        axis.title.x = element_text(margin = margin(t = 10, r = 20, b = 0, l = 0)),
+        plot.margin=unit(c(0.25,1,0.5,0.25),"cm"),
+        panel.border = element_rect(colour = "black", fill=NA, size=0.75))
+
+top15
+```
+
+*Figure 1: Total catch weight of the fifteen most commonly encountered taxa during trip `r trip`*
+=======
 <!-- <!--#plot catch weight of top 15 taxa--> -->
 <!-- ```{r catch.plot, echo=FALSE, message=FALSE} -->
 
@@ -213,15 +290,4 @@ This trip completed `r sets` sets in NAFO divisions `r as.character(divs)`. Tota
 <!-- ``` -->
 
 <!-- *Figure 1: Total catch weight of the fifteen most commonly encountered taxa during trip `r trip`* -->
-
-#<!-- TABLE OF SETS -->
-#```{r Sets.Table, echo=FALSE}
-#
-#n_sets <- RV.SET %>% 
-#  group_by(depth.bin) %>% 
-#  summarize(N=n()) 
-#
-#
-#```
-#kable(n_sets, format="markdown")
 
