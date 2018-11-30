@@ -1,0 +1,3 @@
+book_filename: ""
+rmd_files: ["knitr-TripReport.Rmd"]
+delete_merged_file: true
