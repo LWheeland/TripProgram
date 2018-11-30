@@ -1,0 +1,6 @@
+"0","#  read in FFS data dbf      
+RV.SET <- read.dbf(""C:/Users/Laura/Documents/trip report/TEL190/RV_SET.dbf"")
+"
+"2","Error in read.dbf(""C:/Users/Laura/Documents/trip report/TEL190/RV_SET.dbf"") : 
+  could not find function ""read.dbf""
+"
