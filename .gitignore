@@ -2,8 +2,10 @@
 .Rhistory
 .RData
 .Ruserdata
-.Rproj.user
 .DBF
 .CDX
 .aacbd
+.FPT
+/knitr-cache
+.accdb
 .FPT
